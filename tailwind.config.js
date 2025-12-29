@@ -7,10 +7,30 @@ export default {
   theme: {
     extend: {
       colors: {
-        'eth-purple': '#8B5CF6',
-        'eth-pink': '#EC4899',
-        'eth-green': '#10B981',
-        'mumbai-orange': '#F97316',
+        'best-red': '#E2231A',
+        'bus-black': '#1C1C1C',
+        'bus-yellow': '#FFD600',
+        'bus-green': '#00A859',
+        'eth-blue': '#3FA9F5',
+        'eth-purple': '#7C3AED',
+        'eth-pink': '#DB2777',
+      },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+      },
+      animation: {
+        'fade-in': 'fadeIn 0.5s ease-out',
+        'slide-up': 'slideUp 0.5s ease-out',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        slideUp: {
+          '0%': { transform: 'translateY(20px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        }
       }
     },
   },
