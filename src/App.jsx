@@ -138,7 +138,7 @@ function App() {
 
   const shareOnTwitter = () => {
     const text = `I scored ${getVibePercentage()}% on the #ETHMumbai Maxi Checker! My rank: ${getRank()}. Can you beat me? @ethmumbai 👇`;
-    const url = window.location.href;
+    const url = "https://ethmumbai-maxi-checker-242775953468.asia-south1.run.app/";
     window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
   };
 
