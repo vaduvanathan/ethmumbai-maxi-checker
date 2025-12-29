@@ -4,7 +4,8 @@ import { signInWithPopup, signOut, onAuthStateChanged } from 'firebase/auth';
 import { collection, addDoc, query, orderBy, limit, getDocs, setDoc, doc } from 'firebase/firestore';
 import { auth, provider, db } from './firebase';
 import { questions } from './data/questions';
-import { FaTwitter, FaHeart, FaTimes, FaCheck } from 'react-icons/fa';
+import { FaTwitter, FaHeart, FaTimes, FaCheck, FaDownload } from 'react-icons/fa';
+import html2canvas from 'html2canvas';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -142,6 +143,20 @@ function App() {
     window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
   };
 
+  const downloadScoreCard = async () => {
+    const element = document.getElementById('score-card');
+    if (element) {
+      const canvas = await html2canvas(element);
+      const data = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.href = data;
+      link.download = 'ethmumbai-maxi-score.png';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
   if (loading) return <div className="flex items-center justify-center h-screen bg-gradient-to-b from-[#E2231A] to-[#990000] text-white">Loading...</div>;
 
   return (
@@ -188,7 +203,7 @@ function App() {
           </div>
         ) : gameOver ? (
           <div className="w-full space-y-6 text-center animate-fade-in px-2 pb-8 overflow-y-auto max-h-[80vh]">
-            <div className="bg-white text-bus-black p-8 rounded-3xl shadow-2xl border-4 border-bus-yellow">
+            <div id="score-card" className="bg-white text-bus-black p-8 rounded-3xl shadow-2xl border-4 border-bus-yellow">
               <h2 className="text-3xl font-bold mb-2 text-best-red">Vibe Check Complete</h2>
               <div className="text-8xl font-black text-bus-black mb-4">
                 {getVibePercentage()}%
@@ -196,21 +211,31 @@ function App() {
               <p className="text-xl text-gray-600 mb-8 font-medium">
                 {getVibePercentage() > 80 ? "Certified ETH Maxi! 🦄" : "Normie Alert! 🚨"}
               </p>
+              <div className="text-xs text-gray-400 mb-4">ethmumbai-maxi-checker.web.app</div>
+            </div>
               
+            <div className="flex gap-2">
+              <button
+                onClick={downloadScoreCard}
+                className="flex-1 flex items-center justify-center gap-2 bg-gray-800 hover:bg-gray-900 text-white font-bold py-4 px-6 rounded-xl transition-all mb-4 shadow-lg text-lg"
+              >
+                <FaDownload /> Save Image
+              </button>
+
               <button
                 onClick={shareOnTwitter}
-                className="w-full flex items-center justify-center gap-2 bg-[#1DA1F2] hover:bg-[#1a91da] text-white font-bold py-4 px-6 rounded-xl transition-all mb-4 shadow-lg text-lg"
+                className="flex-1 flex items-center justify-center gap-2 bg-[#1DA1F2] hover:bg-[#1a91da] text-white font-bold py-4 px-6 rounded-xl transition-all mb-4 shadow-lg text-lg"
               >
-                <FaTwitter /> Share Result
-              </button>
-              
-              <button
-                onClick={resetGame}
-                className="text-gray-500 hover:text-black underline py-2"
-              >
-                Play Again
+                <FaTwitter /> Share
               </button>
             </div>
+              
+            <button
+              onClick={resetGame}
+              className="text-gray-500 hover:text-black underline py-2"
+            >
+              Play Again
+            </button>
 
             <div className="bg-white/10 backdrop-blur-md p-6 rounded-3xl shadow-xl border border-white/20">
               <h3 className="text-xl font-bold mb-4 text-left flex items-center gap-2 text-white">
